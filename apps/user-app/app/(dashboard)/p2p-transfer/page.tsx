@@ -11,7 +11,7 @@ async function getTransferRecord() {
             fromUserId: Number(session?.user?.id)
         }
     });
-    return txns.map(t => ({
+    return txns.map((t: typeof txns[number]) => ({
         time: t.timestamp,
         amount: t.amount,
     }))
