@@ -14,7 +14,7 @@ model User {
   name              String?
   number            String              @unique
   password          String
-  OnRampTransaction OnRampTransaction[]
+  OnRampTransaction onRampTransaction[]
   Balance           Balance[]
   sentTransfers     p2pTransfer[]       @relation(name: "FromUserRelation")
   receivedTransfers p2pTransfer[]       @relation(name: "ToUserRelation")
@@ -37,7 +37,7 @@ model Merchant {
   auth_type AuthType
 }
 
-model OnRampTransaction {
+model onRampTransaction {
   id        Int          @id @default(autoincrement())
   status    OnRampStatus
   token     String       @unique

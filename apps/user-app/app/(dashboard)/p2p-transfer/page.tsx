@@ -18,7 +18,7 @@ async function getTransferRecord(): Promise<TransferType[]> {
     },
   });
 
-  return txns.map((t) => ({
+  return txns.map((t: { timestamp: Date; amount: number }) => ({
     time: t.timestamp,
     amount: t.amount,
   }));
