@@ -2,12 +2,12 @@ import { getServerSession } from "next-auth";
 import { AllTransactionCard } from "../../../components/AllTransactionCard";
 import { authOptions } from "../../lib/auth";
 import prisma from "@repo/db/client";
-import { OnRampTransaction, p2pTransfer } from "@prisma/client"; 
+import { onRampTransaction, p2pTransfer } from "@prisma/client"; 
 
 async function getAllOnRampTransactions() {
     const session = await getServerSession(authOptions);
 
-    const txns: OnRampTransaction[] = await prisma.onRampTransaction.findMany({
+    const txns: onRampTransaction[] = await prisma.onRampTransaction.findMany({
         where: {
             userId: Number(session?.user?.id),
         },
