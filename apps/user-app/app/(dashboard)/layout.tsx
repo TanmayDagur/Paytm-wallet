@@ -7,18 +7,28 @@ export default function Layout({
 }): JSX.Element {
   return (
     <div className="flex">
-        <div className="w-72 border-r border-slate-300 min-h-screen mr-4 pt-28">
+        <div className="w-72 border-r border-slate-300 min-h-screen  pt-28 ">
             <div>
-                <SidebarItem href={"/dashboard"} icon={<HomeIcon />} title="Home" />
+              <div className="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-700 hover:bg-slate-100 transition-all duration-200 cursor-pointer">
+                  <SidebarItem href={"/dashboard"} icon={<HomeIcon />} title="Home" />
+              </div>
+              <div className="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-700 hover:bg-slate-100 transition-all duration-200 cursor-pointer">
+
                 <SidebarItem href={"/transfer"} icon={<TransferIcon />} title="Transfer" />
+              </div>
+              <div className="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-700 hover:bg-slate-100 transition-all duration-200 cursor-pointer">
                 <SidebarItem href={"/transactions"} icon={<TransactionsIcon />} title="Transactions" />
+              </div>
+              <div className="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-700 hover:bg-slate-100 transition-all duration-200 cursor-pointer">
                 <SidebarItem href={"/p2p-transfer"} icon={<P2PTransferIcon />} title="P2P Transfer" />
+              </div>
             </div>
         </div>
-            {children}
+        {children}
     </div>
   );
 }
+
 
 // Icons Fetched from https://heroicons.com/
 function HomeIcon() {
