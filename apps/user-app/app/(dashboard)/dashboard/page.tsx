@@ -30,7 +30,7 @@ export default async function() {
     const user = await getUserData();
     const userBalance = await fetchUserBalance();
 
-    return <div>
+    return <div className="w-full pl-5">
             <div className="text-4xl text-[#6a51a6] pt-8 mb-8 font-bold">
                 
                 GOOD DAY   ,   {user ? JSON.stringify(user.name).split('"')[1] : "No user found"}
