@@ -8,7 +8,7 @@ const app = express();
 app.use(express.json());
 
 app.use(cors({
-  origin: "https://paytm-style-wallet-user-app-hjnq-ashen.vercel.app",
+  origin: "https://paytm-nine-cyan.vercel.app/",
   credentials: true,
 }));
 
