@@ -33,7 +33,7 @@ export default async function TransactionsPage() {
         <div className="w-full max-w-xl cursor-pointer hover:scale-105 transition-transform">
           <SendCard />
         </div>
-        <div className="w-full max-w-xl cursor-pointer hover:scale-105 transition-transform">
+        <div className="w-full max-w-xl hover:scale-105 transition-transform">
           <TransferRecord transactions={transactions} />
         </div>
       </div>
