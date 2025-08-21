@@ -9,13 +9,23 @@ import { p2pTransfer } from "../app/lib/actions/p2pTransfer";
 export function SendCard() {
     const [number, setNumber] = useState("");
     const [amount, setAmount] = useState("");
-    const [status, setStatus] = useState<null | "success" | "error">(null);
+    const [status, setStatus] = useState<null | "success" | "error" | "warning">(null);
     const [message, setMessage] = useState("");
 
     const handleSend = async () => {
         try {
-            const res = await p2pTransfer(number, Number(amount) * 100);
-            
+            if (!number.trim() || !amount.trim()) {
+                setStatus("warning");
+                setMessage("⚠️ Please enter both Number and Amount");
+                return;
+            }
+
+            if (isNaN(Number(amount)) || Number(amount) <= 0) {
+                setStatus("warning");
+                setMessage("⚠️ Please enter a valid amount greater than 0");
+                return;
+            }
+            await p2pTransfer(number, Number(amount) * 100);
             setStatus("success");
             setMessage("Transaction successful ✅");
         } catch (error) {
@@ -23,6 +33,7 @@ export function SendCard() {
             setMessage("Transaction failed ❌");
         }
 
+        // Clear message after 5s
         setTimeout(() => {
             setStatus(null);
             setMessage("");
@@ -44,13 +55,15 @@ export function SendCard() {
                             label="Amount"
                             onChange={(value) => setAmount(value)}
                         />
-                        
+
                         {status && (
                             <div
                                 className={`mt-3 p-2 rounded-md text-center text-sm font-medium ${
                                     status === "success"
                                         ? "bg-green-100 text-green-700"
-                                        : "bg-red-100 text-red-700"
+                                        : status === "error"
+                                        ? "bg-red-100 text-red-700"
+                                        : "bg-yellow-100 text-yellow-700"
                                 }`}
                             >
                                 {message}
