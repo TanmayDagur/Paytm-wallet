@@ -28,12 +28,12 @@ export default async function TransactionsPage() {
   const transactions = await getTransferRecord();
   return (
     <div className="w-full min-h-screen flex flex-col items-center">
-      <div className="text-4xl text-[#6a51a6] -mb-10 font-bold">Transfer</div>
+      <div className="text-4xl text-[#6a51a6] -mb-10 font-bold">Send Money </div>
       <div className="flex flex-row justify-center items-center gap-8 w-full max-w-full">
-        <div className="w-full max-w-xl">
+        <div className="w-full max-w-xl cursor-pointer hover:scale-105 transition-transform">
           <SendCard />
         </div>
-        <div className="w-full max-w-xl">
+        <div className="w-full max-w-xl cursor-pointer hover:scale-105 transition-transform">
           <TransferRecord transactions={transactions} />
         </div>
       </div>
