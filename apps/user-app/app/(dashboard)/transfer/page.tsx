@@ -38,7 +38,7 @@ export default async function() {
     const balance = await getBalance();
     const transactions = await getOnRampTransactions();
 
-    return <div className="w-screen bg-gradient-to-r from-gray-300 via-gray-100 to-gray-200">
+    return <div className="w-screen">
         <div className="text-4xl text-[#6a51a6] pt-8 mb-8 pl-5 font-bold">
             Transfer
         </div>
