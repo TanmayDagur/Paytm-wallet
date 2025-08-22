@@ -1,7 +1,7 @@
 import prisma from "@repo/db/client";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../../lib/auth";
-import { Card } from "@repo/ui/card";
+import { CountUp } from "../../../components/CountUp";
 
 async function getUserData() {
     const session = await getServerSession(authOptions);
@@ -12,8 +12,6 @@ async function getUserData() {
     })
     return user;
 }
-
-
 async function fetchUserBalance() {
     const user = await getUserData();
     const userBalance = await prisma.balance.findFirst({
@@ -23,23 +21,22 @@ async function fetchUserBalance() {
     })
     return userBalance;
 }
-
-
 export default async function() {
 
     const user = await getUserData();
     const userBalance = await fetchUserBalance();
+    const balance = userBalance ? userBalance.amount / 100 : 0;
 
     return <div className="w-full pl-5">
-            <div className="text-4xl text-[#6a51a6] pt-8 mb-8 font-bold">
+            <div className="text-4xl text-[#6a51a6] pt-8 mb-8 font-bold slide-in-right ">
                 
                 GOOD DAY   ,   {user ? JSON.stringify(user.name).split('"')[1] : "No user found"}
 
             </div>
-            <div className="">
-                <div className="text-xl font-semibold text-blue-500 ">
-                    Portfolio Value: {userBalance ? JSON.stringify(userBalance.amount/100) : "No balance found"}
-                </div>
-            </div>
+            <div>
+        <div className="text-xl font-semibold text-blue-500">
+          Portfolio Value: <CountUp target={balance} prefix="₹" />
+        </div>
+      </div>
         </div>
 }
