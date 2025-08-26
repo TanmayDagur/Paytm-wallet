@@ -16,8 +16,8 @@ export const TransferRecord = ({
         </Card>
     }
     return <Card title="Recent Transfers">
-        <div className="pt-2">
-            {transactions.map(t => <div className="flex justify-between">
+        <div>
+            {transactions.map(t => <div className="flex justify-between border-b pb-2">
                 <div>
                     <div className="text-sm">
                         Transfer INR

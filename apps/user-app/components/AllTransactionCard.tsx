@@ -3,7 +3,7 @@ import { Card } from "@repo/ui/card";
 type OnRampTransaction = {
     time: Date;
     amount: number;
-    status: string; // or OnRampStatus if imported
+    status: string;
     provider: string;
 };
 

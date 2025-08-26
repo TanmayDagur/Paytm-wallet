@@ -50,8 +50,8 @@ export default async function TransactionsPage() {
     const p2p = await getAllp2pTransactions();
 
     return (
-        <div className="w-full flex justify-center">
-            <div className="w-full max-w-5xl px-6 py-8">
+        <div className="w-full flex justify-center bg-gradient-to-r from-gray-300 via-gray-100 to-gray-200">
+            <div className="w-full max-w-5xl px-6 py-12 hover:scale-105 transition-transform">
                 <AllTransactionCard onRamp={onRamp} p2p={p2p} />
             </div>
         </div>

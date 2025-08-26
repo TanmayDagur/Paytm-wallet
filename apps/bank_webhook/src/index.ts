@@ -8,7 +8,7 @@ app.use(express.json());
 
 app.use(cors({
   origin: "https://paytm-style-wallet-user-app-hjnq-ashen.vercel.app",
-  credentials: true, // if you're using cookies/sessions
+  credentials: true, 
 }));
 
 app.post("/", async (req,res)=>{

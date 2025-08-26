@@ -55,6 +55,10 @@ export const authOptions = {
           },
         })
     ],
+    pages: {
+        signIn: "/signin",   
+        signOut: "/signout", 
+    },
     secret: process.env.JWT_SECRET || "secret",
     callbacks: {
 
