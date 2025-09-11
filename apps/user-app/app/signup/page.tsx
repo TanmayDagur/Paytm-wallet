@@ -18,7 +18,7 @@ export default function SignupPage() {
     });
     if (res.ok) {
       const loginRes = await signIn("credentials", {
-        username,
+        phone: number,
         password,
         redirect: false,
       });
