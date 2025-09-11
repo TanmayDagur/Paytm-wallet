@@ -4,7 +4,7 @@ import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
 export default function SignupPage() {
-  const [username, setUsername] = useState("");
+  const [name, setName] = useState("");
   const [number, setNumber] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();
@@ -14,7 +14,7 @@ export default function SignupPage() {
     const res = await fetch("/api/auth/signup", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ username, number, password }),
+      body: JSON.stringify({ name, number, password }),
     });
     if (res.ok) {
       const loginRes = await signIn("credentials", {
@@ -32,10 +32,6 @@ export default function SignupPage() {
         bg-gradient-to-br from-gray-200 via-gray-300 to-gray-400
         transition-colors duration-500`}
     >
-      {/* Theme toggle button */}
-      
-
-      {/* Glass form container */}
       <div
         className={`p-8 rounded-2xl shadow-lg hover:scale-105 transition-transform w-full max-w-md
           `}
@@ -46,9 +42,9 @@ export default function SignupPage() {
             className={`w-full p-3 rounded-lg bg-transparent border focus:outline-none placeholder-gray-500
               `}
             type="text"
-            placeholder="Username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            placeholder="Name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
           />
           <input
             className={`w-full p-3 rounded-lg bg-transparent border focus:outline-none placeholder-gray-500
