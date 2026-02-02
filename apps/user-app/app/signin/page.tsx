@@ -37,19 +37,19 @@ export default function SigninPage() {
         transition-colors duration-500`}
     >
       <div
-        className={`p-8 rounded-2xl shadow-lg hover:scale-105 transition-transform w-full max-w-md`}
+        className={`p-8 rounded-2xl shadow-lg hover:scale-105 transition-transform w-full max-w-md bg-blue-300 bg-opacity-30 backdrop-blur-md border border-gray-200`}
       >
         <h1 className="text-3xl font-bold text-center mb-6">Sign In</h1>
         <form onSubmit={handleSubmit} className="space-y-4">
           <input
-            className={`w-full p-3 rounded-lg bg-transparent border focus:outline-none placeholder-gray-500`}
+            className={`w-full p-3 rounded-lg bg-transparent border focus:outline-none placeholder-black`}
             type="text"
             placeholder="Number"
             value={number}
             onChange={(e) => setNumber(e.target.value)}
           />
           <input
-            className={`w-full p-3 rounded-lg bg-transparent border focus:outline-none placeholder-gray-500`}
+            className={`w-full p-3 rounded-lg bg-transparent border focus:outline-none placeholder-black`}
             type="password"
             placeholder="Password"
             value={password}
@@ -60,7 +60,7 @@ export default function SigninPage() {
           )}
           <button
             type="submit"
-            className={`w-full p-3 rounded-lg transition cursor-pointer bg-purple-600 hover:bg-purple-700`}
+            className={`w-full p-3 rounded-lg transition cursor-pointer font-semibold bg-purple-600 hover:bg-purple-700`}
           >
             Sign In
           </button>
