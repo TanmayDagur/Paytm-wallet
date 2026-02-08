@@ -1,3 +1,6 @@
+"use client"
+import { useState } from "react";
+
 export const OnRampTransactions = ({
     transactions
 }: {
@@ -8,75 +11,117 @@ export const OnRampTransactions = ({
         provider: string
     }[]
 }) => {
+    
+    const [showAll, setShowAll] = useState(false);
+    
+    const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
+
     const getStatusDetails = (status: string) => {
         const s = status.toLowerCase();
-        if (s === 'success') return { 
-            color: 'text-green-600', 
-            bg: 'bg-green-50', 
-            icon: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiMwZWNkMjUiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBjbGFzcz0ibHVjaWRlIGx1Y2lkZS1iYWRnZS1jaGVjay1pY29uIGx1Y2lkZS1iYWRnZS1jaGVjayI+PHBhdGggZD0iTTMuODUgOC42MmE0IDQgMCAwIDEgNC43OC00Ljc3IDQgNCAwIDAgMSA2Ljc0IDAgNCA0IDAgMCAxIDQuNzggNC43OCA0IDQgMCAwIDEgMCA2Ljc0IDQgNCAwIDAgMS00Ljc3IDQuNzggNCA0IDAgMCAxLTYuNzUgMCA0IDQgMCAwIDEtNC43OC00Ljc3IDQgNCAwIDAgMSAwLTYuNzZaIi8+PHBhdGggZD0ibTkgMTIgMiAyIDQtNCIvPjwvc3ZnPg=="
+        const colors = {
+            success: { c: '%2316a34a', bg: 'bg-green-50', text: 'text-green-600', icon: 'badge-check' },
+            pending: { c: '%23d97706', bg: 'bg-amber-50', text: 'text-amber-600', icon: 'clock' },
+            failure: { c: '%23dc2626', bg: 'bg-red-50', text: 'text-red-600', icon: 'x-circle' }
         };
-        if (s === 'processing' || s === 'pending') return { 
-            color: 'text-amber-600', 
-            bg: 'bg-amber-50', 
-            icon: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiNmODVlMWIiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBjbGFzcz0ibHVjaWRlIGx1Y2lkZS1jbG9jay1pY29uIGx1Y2lkZS1jbG9jayI+PHBhdGggZD0iTTEyIDZ2Nmw0IDIiLz48Y2lyY2xlIGN4PSIxMiIgY3k9IjEyIiByPSIxMCIvPjwvc3ZnPg=="
-        };
-        return { 
-            color: 'text-red-600', 
-            bg: 'bg-red-50', 
-            icon: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiMwZWNkMjUiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBjbGFzcz0ibHVjaWRlIGx1Y2lkZS14LWNpcmNsZS1pY29uIGx1Y2lkZS14LWNpcmNsZSI+PHBhdGggZD0iTTEyIDExLjVhMSAxIDAgMCAwIDAgMiAxIDEgMCAwIDAgMCAtMiAxIDEgMCAwIDAgMCAtMiAxIDEgMCAwIDAgMCAtMiAxIDEgMCAwIDAgMCAtMiAxIDEgMCAwIDAgMCAtMiAxIDEgMCAwIDAgMCAtMiAxIDEgMCAwIDAgMCAtMiAxIDEgMCAwIDAgMCAtMiAxIDEgMCAwIDAgMCAtMiAxIDEgMCAwIDAgMCAtMiAxIDEgMCAwIDAgMCAtMiAxIDEgMCAwIDAgMCAtMiAxIDEgMCAwIDAgMCAtMiAxIDEgMCAwIDAgMCAtMiAxIDEgMCAwIDAgMCAtMiAxIDEgMCAwIDAgMCAtMiAxIDEgMCAwIDAgMCAtMiAxIDEgMCAwIDAgMCAtMiAxIDEgMCAwIDAgMCAtMiAxIDEgMCAwIDAgMCAtMiAxIDEgMCAwIDAgMCAtMiAxIDEgMCAwIDAgMCAtMiAxIDEgMCAwIDAgMCAtMiAxIDEgMCAwIDAgMCAtMiBhMSAwIDAuNSAwIDAuNSAwLjUzNzUyNzE4NjQxODQxOSAwIDAuNSAwIDAuNTQyODc1MTkzMzE4OTc3IDAuNSAwIDAuNSAwIDAuNTQyODc1MTkzMzE4OTc3IDAuNSAwIDAuNSAwIDAuNTQyODc1MTkzMzE4OTc3IDAuNSAwIDAuNSAwIDAuNTQyODc1MTkzMzE4OTc3IDAuNSAwIDAuNSAwIDAuNTQyODc1MTkzMzE4OTc3IDAuNSAwIDAuNSAwIGExIDIgLjUgLjUgLjUgLjUgLjUgLjUgLjUgLjUgLjUgLjUgLjUgLjUgLjUgLjUgLjUgLjUgLjUgLjUgLjUgLjUgLjUgLjUgLjUgLjUgLjUgLjUK"
+        const config = colors[s as keyof typeof colors] || colors.pending;
+        return {
+            ...config,
+            iconUrl: `https://lucide.dev/api/icons/${config.icon}?stroke=${config.c}`
         };
     };
 
     if (!transactions.length) {
         return (
-            <div className="p-8 text-center bg-white rounded-[2rem]">
-                <img 
-                    src="https://lucide.dev/api/icons/arrow-down-left?stroke=%23cbd5e1" 
-                    className="w-12 h-12 mx-auto mb-4" 
-                    alt="empty"
-                />
+            <div className="p-8 text-center bg-white rounded-[2rem] border border-slate-100 shadow-sm">
+                <img src="https://lucide.dev/api/icons/ghost?stroke=%23cbd5e1" className="w-12 h-12 mx-auto mb-4" alt="empty" />
                 <h3 className="text-slate-900 font-bold text-lg">No activity yet</h3>
-                <p className="text-slate-400 text-sm">Your transactions will appear here.</p>
+                <p className="text-slate-400 text-sm mt-1">Transactions will appear here once initiated.</p>
             </div>
         );
     }
 
+    
+    const displayedTransactions = showAll ? transactions : transactions.slice(0, 3);
+
     return (
-        <div className="bg-white p-8 group">
-            <div className="flex items-center justify-between mb-8">
-                <div>
-                    <h2 className="text-xl font-bold text-slate-900">Recent Transactions</h2>
-                    <p className="text-xs text-slate-400 font-semibold uppercase tracking-wider">Activity History</p>
-                </div>
-                <img src="https://lucide.dev/api/icons/arrow-down-left?stroke=%23cbd5e1" className="w-6 h-6 opacity-50 group-hover:opacity-100 transition-opacity" alt="icon" />
+        <div className="bg-white p-8 rounded-[2rem] border border-slate-100 shadow-sm">
+    
+            <div className="mb-8">
+                <h2 className="text-xl font-bold text-slate-900">Recent Transactions</h2>
+                <p className="text-xs text-slate-400 font-semibold uppercase tracking-wider">Activity History</p>
             </div>
 
-            <div className="space-y-6">
-                {transactions.map((t, index) => {
+            <div className="space-y-3">
+                {displayedTransactions.map((t, index) => {
                     const status = getStatusDetails(t.status);
+                    const isExpanded = expandedIndex === index;
+
                     return (
-                        <div key={index} className="flex justify-between items-center group/item">
-                            <div className="flex items-center gap-4">
-                                <div className={`w-10 h-10 ${status.bg} rounded-xl flex items-center justify-center`}>
-                                    <img src={status.icon} className="w-5 h-5" alt={t.status} />
-                                </div>
-                                <div>
-                                    <div className="text-sm font-bold text-slate-900">Received INR</div>
-                                    <div className="text-slate-400 text-xs font-medium">
-                                        {t.time.toLocaleDateString('en-IN')} • {t.provider}
+                        <div 
+                            key={index} 
+                            onClick={() => setExpandedIndex(isExpanded ? null : index)}
+                            className={`p-4 rounded-2xl border transition-all duration-300 cursor-pointer 
+                                ${isExpanded ? 'border-blue-200 bg-slate-50/50 shadow-sm' : 'border-transparent hover:bg-slate-50'}`}
+                        >
+                            <div className="flex justify-between items-center">
+                                <div className="flex items-center gap-4">
+                                    <div className={`w-10 h-10 ${status.bg} rounded-xl flex items-center justify-center shadow-sm`}>
+                                        <img src={status.iconUrl} className="w-5 h-5" alt={t.status} />
+                                    </div>
+                                    <div>
+                                        <div className="text-sm font-bold text-slate-900">Received INR</div>
+                                        <div className="text-slate-400 text-[10px] font-bold uppercase tracking-tighter">
+                                            {t.provider}
+                                        </div>
                                     </div>
                                 </div>
+                                <div className="flex items-center gap-4">
+                                    <div className="text-right">
+                                        <div className="text-sm font-black text-slate-900">+ ₹{t.amount / 100}</div>
+                                        <div className={`text-[10px] font-bold uppercase tracking-widest ${status.text}`}>
+                                            {t.status}
+                                        </div>
+                                    </div>
+                                    <img 
+                                        src="https://lucide.dev/api/icons/chevron-down?stroke=%2394a3b8" 
+                                        className={`w-4 h-4 transition-transform duration-300 ${isExpanded ? 'rotate-180' : ''}`}
+                                        alt="arrow"
+                                    />
+                                </div>
                             </div>
-                            <div className="text-right">
-                                <div className="text-sm font-black text-slate-900">+ ₹{t.amount / 100}</div>
-                                <div className={`text-[10px] font-bold uppercase tracking-widest ${status.color}`}>
-                                    {t.status}
+
+                            
+                            <div className={`overflow-hidden transition-all duration-300 ease-in-out ${isExpanded ? 'max-h-40 opacity-100 mt-4 pt-4 border-t border-slate-200' : 'max-h-0 opacity-0'}`}>
+                                <div className="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <p className="text-[10px] text-slate-400 uppercase font-bold tracking-widest">Date & Time</p>
+                                        <p className="text-xs font-semibold text-slate-700">{t.time.toLocaleString('en-IN')}</p>
+                                    </div>
+                                    <div>
+                                        <p className="text-[10px] text-slate-400 uppercase font-bold tracking-widest">Method</p>
+                                        <p className="text-xs font-semibold text-slate-700">On-Ramp Transfer</p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     );
                 })}
             </div>
+
+            
+            {transactions.length > 3 && (
+                <button 
+                    onClick={() => setShowAll(!showAll)}
+                    className="w-full mt-6 py-3 border border-slate-100 rounded-xl text-xs font-bold text-slate-500 hover:bg-slate-50 hover:text-blue-600 transition-all flex items-center justify-center gap-2"
+                >
+                    {showAll ? 'Show Less' : `View All (${transactions.length})`}
+                    <img 
+                        src={`https://lucide.dev/api/icons/arrow-right?stroke=${showAll ? '%232563eb' : '%2394a3b8'}`} 
+                        className={`w-3 h-3 transition-transform ${showAll ? '-rotate-90' : 'rotate-90'}`} 
+                        alt="arrow"
+                    />
+                </button>
+            )}
         </div>
     );
 };
