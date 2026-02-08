@@ -1,69 +1,105 @@
-import { SidebarItem } from "../../components/SidebarItem";
+"use client";
+
+import React, { useState } from 'react';
+import Link from 'next/link';
+import { 
+  Home, 
+  Send, 
+  History, 
+  Users, 
+  ChevronLeft, 
+  ChevronRight,
+} from 'lucide-react';
+import { usePathname } from 'next/navigation';
 
 export default function Layout({
   children,
 }: {
   children: React.ReactNode;
 }): JSX.Element {
-  return (<div>
-    <div className="flex">
-        <div className="w-72 border-r border-slate-300 min-h-screen  pt-28 ">
-            <div>
-              <div className="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-700 hover:bg-slate-100 transition-all duration-200 cursor-pointer">
-                  <SidebarItem href={"/dashboard"} icon={<HomeIcon />} title="Home" />
-              </div>
-              <div className="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-700 hover:bg-slate-100 transition-all duration-200 cursor-pointer">
+  const [isCollapsed, setIsCollapsed] = useState(false);
+  const pathname = usePathname();
 
-                <SidebarItem href={"/transfer"} icon={<TransferIcon />} title="Transfer" />
-              </div>
-              <div className="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-700 hover:bg-slate-100 transition-all duration-200 cursor-pointer">
-                <SidebarItem href={"/transactions"} icon={<TransactionsIcon />} title="Transactions" />
-              </div>
-              <div className="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-700 hover:bg-slate-100 transition-all duration-200 cursor-pointer">
-                <SidebarItem href={"/p2p-transfer"} icon={<P2PTransferIcon />} title="P2P Transfer" />
-              </div>
-                
-                
-                
-                
-            </div>
+  const menuItems = [
+    { name: 'Home', icon: Home, href: '/dashboard' },
+    { name: 'Transfer', icon: Send, href: '/transfer' },
+    { name: 'Transactions', icon: History, href: '/transactions' },
+    { name: 'P2P Transfer', icon: Users, href: '/p2p-transfer' },
+  ];
+
+  return (
+    
+    <div className="flex h-screen overflow-hidden bg-slate-50">
+      
+    
+      <aside 
+        className={`relative hidden md:flex flex-col bg-white border-r border-slate-200 transition-all duration-300 ease-in-out shadow-sm flex-shrink-0
+          ${isCollapsed ? 'w-20' : 'w-64'}`}
+      >
+    
+        <button 
+          onClick={() => setIsCollapsed(!isCollapsed)}
+          className="absolute -right-3 top-10 bg-white border border-slate-200 rounded-full p-1 text-slate-500 hover:text-blue-500 hover:border-blue-500 transition-all z-50 shadow-sm"
+        >
+          {isCollapsed ? <ChevronRight size={16} /> : <ChevronLeft size={16} />}
+        </button>
+
+    
+        <nav className="flex-1 px-3 space-y-2 mt-24">
+          {menuItems.map((item) => {
+            const Icon = item.icon;
+            const isActive = pathname === item.href;
+
+            return (
+              <SidebarWrapper 
+                key={item.href} 
+                href={item.href}
+                isActive={isActive} 
+                isCollapsed={isCollapsed} 
+                label={item.name}
+              >
+                <Icon size={22} className={isActive ? 'text-blue-600' : 'text-slate-400'} />
+                {!isCollapsed && <span className="text-sm font-medium">{item.name}</span>}
+              </SidebarWrapper>
+            );
+          })}
+        </nav>
+      </aside>
+
+      <main className="flex-1 h-full overflow-y-auto p-8">
+        <div className="max-w-7xl mx-auto">
+          {children}
         </div>
-        {children}
+      </main>
     </div>
-    </div>
   );
 }
 
-// Icons Fetched from https://heroicons.com/
-function HomeIcon() {
+
+interface WrapperProps {
+  children: React.ReactNode;
+  isActive: boolean;
+  isCollapsed: boolean;
+  label: string;
+  href: string;
+}
+
+function SidebarWrapper({ children, isActive, isCollapsed, label, href }: WrapperProps) {
   return (
-    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-      <path strokeLinecap="round" strokeLinejoin="round" d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
-    </svg>
+    <Link href={href} className={`
+      relative flex items-center gap-4 px-4 py-3 rounded-xl transition-all duration-200 cursor-pointer group
+      ${isActive 
+        ? 'bg-blue-50 text-blue-600' 
+        : 'text-slate-500 hover:bg-slate-50 hover:text-blue-500'}
+      ${isCollapsed ? 'justify-center' : ''}
+    `}>
+      {children}
+
+      {isCollapsed && (
+        <div className="absolute left-full ml-4 px-2 py-1 bg-slate-800 text-white text-xs rounded opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity whitespace-nowrap z-50">
+          {label}
+        </div>
+      )}
+    </Link>
   );
 }
-
-function TransferIcon() {
-  return (
-    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-      <path strokeLinecap="round" strokeLinejoin="round" d="M7.5 21 3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5" />
-    </svg>
-  );
-}
-
-function TransactionsIcon() {
-  return (
-    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-      <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-    </svg>
-  );
-}
-
-function P2PTransferIcon() {
-  return (
-    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-      <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 18 9 11.25l4.306 4.306a11.95 11.95 0 0 1 5.814-5.518l2.74-1.22m0 0-5.94-2.281m5.94 2.28-2.28 5.941" />
-    </svg>
-  );
-}
-
