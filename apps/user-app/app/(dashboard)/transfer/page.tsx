@@ -42,7 +42,7 @@ export default async function TransferPage() {
             <div className="max-w-7xl mx-auto p-6 md:p-10 lg:p-12">
                 
                 
-                <header className="mb-10">
+                <header className="mb-5 -mt-12">
                     <h1 className="text-4xl font-extrabold text-slate-900 mb-2 tracking-tight">
                         Transfer
                     </h1>
