@@ -43,7 +43,7 @@ export const AddMoney = () => {
       <div className="flex items-center gap-4 mb-8">
         <div className="w-12 h-12 bg-blue-50 rounded-2xl flex items-center justify-center shadow-inner">
           <img 
-            src="https://lucide.dev/api/icons/plus?stroke=%232563eb" 
+            src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiMyZjg0ZjQiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBjbGFzcz0ibHVjaWRlIGx1Y2lkZS1wbHVzLWljb24gbHVjaWRlLXBsdXMiPjxwYXRoIGQ9Ik01IDEyaDE0Ii8+PHBhdGggZD0iTTEyIDV2MTQiLz48L3N2Zz4=" 
             alt="Add" 
             className="w-6 h-6" 
           />
