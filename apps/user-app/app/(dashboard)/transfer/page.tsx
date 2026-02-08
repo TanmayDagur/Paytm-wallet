@@ -25,7 +25,7 @@ async function getOnRampTransactions() {
             userId: Number(session?.user?.id)
         }
     });
-    return txns.map((t: typeof txns[number]) => ({
+    return txns.map((t: any) => ({
         time: t.startTime,
         amount: t.amount,
         status: t.status,
@@ -33,27 +33,50 @@ async function getOnRampTransactions() {
     }))
 }
 
-
-export default async function() {
+export default async function TransferPage() {
     const balance = await getBalance();
     const transactions = await getOnRampTransactions();
 
-    return <div className="w-screen bg-gradient-to-r from-gray-300 via-gray-100 to-gray-200">
-        <div className="text-4xl text-[#6a51a6] pt-8 mb-8 pl-5 font-bold">
-            Transfer
-        </div>
-        <div className="grid grid-cols-2 gap-4 md:grid-cols-2 p-4">
-            <div className="cursor-pointer hover:scale-105 transition-transform">
-                <AddMoney />
-            </div>
-            <div>
-                <div className="cursor-pointer hover:scale-105 transition-transform">
-                    <BalanceCard amount={balance.amount} locked={balance.locked} />
+    return (
+        <div className="flex-1 min-h-screen bg-slate-50/50">
+            <div className="max-w-7xl mx-auto p-6 md:p-10 lg:p-12">
+                
+                
+                <header className="mb-10">
+                    <h1 className="text-4xl font-extrabold text-slate-900 mb-2 tracking-tight">
+                        Transfer
+                    </h1>
+                    <p className="text-slate-500 font-medium">
+                        Add money to your wallet.
+                    </p>
+                </header>
+
+                
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                    
+                
+                    <div className="lg:col-span-7 transition-all duration-300">
+                        <div className="bg-white rounded-[2rem] shadow-sm border border-slate-200 hover:border-blue-200 transition-colors overflow-hidden">
+                            <AddMoney />
+                        </div>
+                    </div>
+
+                
+                    <div className="lg:col-span-5 space-y-8">
+                        
+                
+                        <div className="bg-white rounded-[2rem] shadow-sm border border-slate-200 hover:border-blue-100 transition-all">
+                            <BalanceCard amount={balance.amount} locked={balance.locked} />
+                        </div>
+
+                
+                        <div className="bg-white rounded-[2rem] shadow-sm border border-slate-200 hover:border-blue-100 transition-all">
+                            <OnRampTransactions transactions={transactions} />
+                        </div>
+                        
+                    </div>
                 </div>
-                <div className="pt-4 cursor-pointer hover:scale-105 transition-transform">
-                    <OnRampTransactions transactions={transactions} />
-                </div>
             </div>
         </div>
-    </div>
+    );
 }
