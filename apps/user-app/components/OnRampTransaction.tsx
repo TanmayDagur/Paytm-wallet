@@ -13,20 +13,22 @@ export const OnRampTransactions = ({
 }) => {
     
     const [showAll, setShowAll] = useState(false);
-    
     const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
 
     const getStatusDetails = (status: string) => {
+        // Map the database strings ("Success", "Processing", "Failure") to your UI colors
         const s = status.toLowerCase();
         const colors = {
             success: { c: '%2316a34a', bg: 'bg-green-50', text: 'text-green-600', icon: 'badge-check' },
+            processing: { c: '%23d97706', bg: 'bg-amber-50', text: 'text-amber-600', icon: 'clock' }, 
             pending: { c: '%23d97706', bg: 'bg-amber-50', text: 'text-amber-600', icon: 'clock' },
             failure: { c: '%23dc2626', bg: 'bg-red-50', text: 'text-red-600', icon: 'x-circle' }
         };
+        
         const config = colors[s as keyof typeof colors] || colors.pending;
         return {
             ...config,
-            iconUrl: `https://lucide.dev/api/icons/${config.icon}?stroke=${config.c}`
+            iconUrl: `https://lucide.dev/api/icons/${config.icon}`
         };
     };
 
@@ -40,12 +42,10 @@ export const OnRampTransactions = ({
         );
     }
 
-    
     const displayedTransactions = showAll ? transactions : transactions.slice(0, 3);
 
     return (
         <div className="bg-white p-8 rounded-[2rem] border border-slate-100 shadow-sm">
-    
             <div className="mb-8">
                 <h2 className="text-xl font-bold text-slate-900">Recent Transactions</h2>
                 <p className="text-xs text-slate-400 font-semibold uppercase tracking-wider">Activity History</p>
@@ -90,7 +90,6 @@ export const OnRampTransactions = ({
                                 </div>
                             </div>
 
-                            
                             <div className={`overflow-hidden transition-all duration-300 ease-in-out ${isExpanded ? 'max-h-40 opacity-100 mt-4 pt-4 border-t border-slate-200' : 'max-h-0 opacity-0'}`}>
                                 <div className="grid grid-cols-2 gap-4">
                                     <div>
@@ -108,7 +107,6 @@ export const OnRampTransactions = ({
                 })}
             </div>
 
-            
             {transactions.length > 3 && (
                 <button 
                     onClick={() => setShowAll(!showAll)}
