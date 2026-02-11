@@ -4,7 +4,7 @@ import { TransferRecord } from "../../../components/TransferRecord";
 import { authOptions } from "../../lib/auth";
 import prisma from "@repo/db/client";
 
-// Define what one transfer looks like
+
 type TransferType = {
   time: Date;
   amount: number;
@@ -16,9 +16,12 @@ async function getTransferRecord(): Promise<TransferType[]> {
     where: {
       fromUserId: Number(session?.user?.id),
     },
+    orderBy: {
+      timestamp: 'desc' 
+    }
   });
 
-  return txns.map((t: { timestamp: Date; amount: number }) => ({
+  return txns.map((t) => ({
     time: t.timestamp,
     amount: t.amount,
   }));
@@ -26,27 +29,40 @@ async function getTransferRecord(): Promise<TransferType[]> {
 
 export default async function TransactionsPage() {
   const transactions = await getTransferRecord();
+  
   return (
-    <div className="w-full min-h-screen flex flex-col bg-gradient-to-r from-gray-300 via-gray-100 to-gray-200">
-      
-      <div className="text-4xl text-[#6a51a6] font-bold pt-5 mb-8 pl-5 text-center">
-        Send Money
-      </div>
-
-      
-      <div className="flex w-full px-10 gap-8 items-start">
+    <div className="flex-1 min-h-screen bg-slate-50/50">
+      <div className="max-w-7xl mx-auto p-6 md:p-10 lg:p-12">
         
-        <div className="flex-1 max-w-xl -mt-16 cursor-pointer hover:scale-105 transition-transform">
-          <SendCard />
-        </div>
+        
+        <header className="mb-10">
+          <h1 className="text-4xl font-extrabold text-slate-900 mb-2 tracking-tight">
+            P2P Transfer
+          </h1>
+          <p className="text-slate-500 font-medium">
+            Send money instantly to any phone number on the PayTM network.
+          </p>
+        </header>
 
-      
-        <div className="flex-1 max-w-xl  cursor-pointer hover:scale-105 transition-transform">
-          <TransferRecord transactions={transactions} />
+        
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+          
+          
+          <div className="lg:col-span-7 transition-all duration-300">
+            <div className="bg-white rounded-[2rem] shadow-sm border border-slate-200 hover:border-blue-200 transition-colors overflow-hidden">
+              <SendCard />
+            </div>
+          </div>
+
+          
+          <div className="lg:col-span-5">
+            <div className="bg-white rounded-[2rem] shadow-sm border border-slate-200 hover:border-blue-100 transition-all overflow-hidden">
+              <TransferRecord transactions={transactions} />
+            </div>
+          </div>
+          
         </div>
       </div>
     </div>
   );
 }
-
-
