@@ -16,12 +16,10 @@ export default function SigninPage() {
     setError(null);
 
     const loginRes = await signIn("credentials", {
-      phone: number, 
+      phone: number,
       password,
       redirect: false,
     });
-    console.log("Login response:", loginRes);
-    console.log("Login response error:", loginRes?.ok);
 
     if (loginRes?.ok === false) {
       setError("Invalid number or password");
@@ -31,49 +29,66 @@ export default function SigninPage() {
   }
 
   return (
-    <div
-      className={`min-h-screen flex items-center justify-center
-        bg-gradient-to-br from-gray-200 via-gray-300 to-gray-400
-        transition-colors duration-500`}
-    >
-      <div
-        className={`p-8 rounded-2xl shadow-lg hover:scale-105 transition-transform w-full max-w-md bg-blue-300 bg-opacity-30 backdrop-blur-md border border-gray-200`}
-      >
-        <h1 className="text-3xl font-bold text-center mb-6">Sign In</h1>
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <input
-            className={`w-full p-3 rounded-lg bg-transparent border focus:outline-none placeholder-black`}
-            type="text"
-            placeholder="Number"
-            value={number}
-            onChange={(e) => setNumber(e.target.value)}
-          />
-          <input
-            className={`w-full p-3 rounded-lg bg-transparent border focus:outline-none placeholder-black`}
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
+    <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-slate-100 via-slate-200 to-blue-50">
+      <div className="bg-white/80 backdrop-blur-md border border-white/20 p-10 rounded-3xl shadow-2xl w-full max-w-md text-center">
+        
+        
+        <h1 className="text-3xl font-extrabold text-slate-800 mb-2">Sign In</h1>
+        <p className="text-slate-500 mb-8 text-sm">Welcome back! Please enter your details.</p>
+
+        <form onSubmit={handleSubmit} className="space-y-5">
+          <div>
+            <input
+              type="text"
+              placeholder="Phone Number"
+              value={number}
+              onChange={(e) => setNumber(e.target.value)}
+              
+              className="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#00BAF2] focus:border-transparent outline-none text-slate-900 placeholder-slate-500 transition-all shadow-sm"
+              required
+            />
+          </div>
+          
+          <div>
+            <input
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#00BAF2] focus:border-transparent outline-none text-slate-900 placeholder-slate-500 transition-all shadow-sm"
+              required
+            />
+            <div className="text-right mt-2">
+               <button type="button" className="text-xs text-[#00BAF2] font-semibold hover:underline">Forgot password?</button>
+            </div>
+          </div>
+
           {error && (
-            <div className="mb-4 text-red-600 text-sm">{error}</div>
+            <div className="bg-red-50 text-red-600 text-xs py-2 px-3 rounded-lg font-medium border border-red-100 animate-in fade-in zoom-in duration-200">
+              {error}
+            </div>
           )}
+
           <button
             type="submit"
-            className={`w-full p-3 rounded-lg transition cursor-pointer font-semibold bg-purple-600 hover:bg-purple-700`}
+            
+            className="w-full bg-[#00BAF2] hover:bg-[#009ed1] text-white py-3.5 rounded-xl font-bold text-base shadow-lg shadow-blue-500/30 transition-all active:scale-[0.98] mt-2"
           >
             Sign In
           </button>
-          <button
-            type="button"
-            onClick={() => router.push("/signup")}
-            className="w-full text-center hover:underline mt-2"
-          >
-            <span className={`text-sm cursor-pointer`}>
-              Don’t have an account? Sign up
-            </span>
-          </button>
         </form>
+
+        <div className="mt-8 pt-6 border-t border-slate-200">
+            <p className="text-slate-600 text-sm">
+              Don't have an account?{" "}
+              <button
+                onClick={() => router.push("/signup")}
+                className="text-[#00BAF2] font-bold hover:underline transition-colors"
+              >
+                Sign up
+              </button>
+            </p>
+        </div>
       </div>
     </div>
   );
