@@ -1,3 +1,4 @@
+import { ReactNode } from "react";
 import { Button } from "./button";
 import Link from "next/link";
 
@@ -6,13 +7,15 @@ interface AppbarProps {
         name?: string | null;
     },
     onSignin: () => void,
-    onSignout: () => void
+    onSignout: () => void,
+    rightAddon?: ReactNode
 }
 
 export const Appbar = ({
     user,
     onSignin,
-    onSignout
+    onSignout,
+    rightAddon
 }: AppbarProps) => {
     return (
         <nav className="sticky top-0 z-50 flex justify-between items-center border-b border-slate-200 px-6 md:px-10 py-3 bg-white/80 backdrop-blur-md">
@@ -42,6 +45,7 @@ export const Appbar = ({
                     </div>
                 )}
                 
+                {rightAddon}
                 <div className="transition-transform active:scale-95">
                     <Button onClick={user ? onSignout : onSignin}>
                         <span className="px-2 font-bold uppercase tracking-tight text-sm">

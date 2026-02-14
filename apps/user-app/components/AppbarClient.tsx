@@ -2,6 +2,7 @@
 import { signIn, signOut, useSession } from "next-auth/react";
 import { Appbar } from "@repo/ui/appbar";
 import { useRouter } from "next/navigation";
+import { ThemeToggle } from "./ThemeToggle";
 
 export function AppbarClient() {
   const session = useSession();
@@ -12,7 +13,7 @@ export function AppbarClient() {
       <Appbar onSignin={signIn} onSignout={async () => {
         await signOut({ redirect: false })
         router.push("/api/auth/signin")
-      }} user={session.data?.user} />
+      }} user={session.data?.user} rightAddon={<ThemeToggle />} />
    </div>
   );
 }
