@@ -15,7 +15,7 @@ export function CountUp({ target, duration = 1500, prefix = "", suffix = "", cla
 
   useEffect(() => {
     let start = 0;
-    const increment = target / (duration / 16); // ~60fps
+    const increment = target / (duration / 16); 
     const timer = setInterval(() => {
       start += increment;
       if (start >= target) {
@@ -31,7 +31,8 @@ export function CountUp({ target, duration = 1500, prefix = "", suffix = "", cla
 
   return (
     <span className={className}>
-      {prefix}{count}{suffix}
+      
+      {(count).toLocaleString('en-IN', { minimumFractionDigits: 2 })}
     </span>
   );
 }
