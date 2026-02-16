@@ -2,6 +2,7 @@ import prisma from "@repo/db/client";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../../lib/auth";
 import { CountUp } from "../../../components/CountUp";
+import Link from "next/link";
 
 async function getUserData() {
     const session = await getServerSession(authOptions);
@@ -34,7 +35,9 @@ function getFormattedDate() {
 
 
 
+
 export default async function() {
+
     const user = await getUserData();
     const userBalance = await fetchUserBalance();
     const balance = userBalance ? userBalance.amount / 100 : 0;
@@ -60,7 +63,7 @@ export default async function() {
                             </div>
                         </div>
                         <div className="mt-8 flex gap-3 relative z-10">
-                            <button className="flex-1 bg-[#002E6E] text-white py-2.5 rounded-lg text-sm font-medium hover:bg-opacity-90 transition-all">Add Money</button>
+                           <Link href="/transfer" className="flex-1 bg-[#002E6E] text-white text-center py-2.5 rounded-lg text-sm font-medium hover:bg-opacity-90 transition-all">Add Money</Link>
                             <button className="flex-1 bg-white border border-gray-200 text-brand-navy py-2.5 rounded-lg text-sm font-medium">Passbook</button>
                         </div>
                     </div>
