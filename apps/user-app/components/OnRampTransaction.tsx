@@ -16,7 +16,6 @@ export const OnRampTransactions = ({
     const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
 
     const getStatusDetails = (status: string) => {
-        // Map the database strings ("Success", "Processing", "Failure") to your UI colors
         const s = status.toLowerCase();
         const colors = {
             success: { c: '%2316a34a', bg: 'bg-green-50', text: 'text-green-600', icon: 'badge-check' },
@@ -34,7 +33,7 @@ export const OnRampTransactions = ({
 
     if (!transactions.length) {
         return (
-            <div className="p-8 text-center bg-white rounded-[2rem] border border-slate-100 shadow-sm">
+            <div className="p-8 text-center glass rounded-[2rem] shadow-sm">
                 <img src="https://lucide.dev/api/icons/ghost?stroke=%23cbd5e1" className="w-12 h-12 mx-auto mb-4" alt="empty" />
                 <h3 className="text-slate-900 font-bold text-lg">No activity yet</h3>
                 <p className="text-slate-400 text-sm mt-1">Transactions will appear here once initiated.</p>
@@ -42,13 +41,16 @@ export const OnRampTransactions = ({
         );
     }
 
-    const displayedTransactions = showAll ? transactions : transactions.slice(0, 3);
+
+    const sortedTransactions = [...transactions].sort((a, b) => b.time.getTime() - a.time.getTime());
+    
+    const displayedTransactions = showAll ? sortedTransactions : sortedTransactions.slice(0, 3);
 
     return (
-        <div className="bg-white p-8 rounded-[2rem] border border-slate-100 shadow-sm">
+        <div className="glass p-8 rounded-[2rem] shadow-sm">
             <div className="mb-8">
                 <h2 className="text-xl font-bold text-slate-900">Recent Transactions</h2>
-                <p className="text-xs text-slate-400 font-semibold uppercase tracking-wider">Activity History</p>
+                <p className="text-xs text-slate-400 font-semibold uppercase tracking-wider">Activity History </p>
             </div>
 
             <div className="space-y-3">
@@ -60,8 +62,8 @@ export const OnRampTransactions = ({
                         <div 
                             key={index} 
                             onClick={() => setExpandedIndex(isExpanded ? null : index)}
-                            className={`p-4 rounded-2xl border transition-all duration-300 cursor-pointer 
-                                ${isExpanded ? 'border-blue-200 bg-slate-50/50 shadow-sm' : 'border-transparent hover:bg-slate-50'}`}
+                            className={`p-4 rounded-2xl transition-all duration-300 cursor-pointer 
+                                ${isExpanded ? 'border-blue-200 glass-lg shadow-sm bg-white/40' : 'border-transparent hover:bg-slate-50/50'}`}
                         >
                             <div className="flex justify-between items-center">
                                 <div className="flex items-center gap-4">
@@ -109,7 +111,10 @@ export const OnRampTransactions = ({
 
             {transactions.length > 3 && (
                 <button 
-                    onClick={() => setShowAll(!showAll)}
+                    onClick={() => {
+                        setShowAll(!showAll);
+                        setExpandedIndex(null); 
+                    }}
                     className="w-full mt-6 py-3 border border-slate-100 rounded-xl text-xs font-bold text-slate-500 hover:bg-slate-50 hover:text-blue-600 transition-all flex items-center justify-center gap-2"
                 >
                     {showAll ? 'Show Less' : `View All (${transactions.length})`}
